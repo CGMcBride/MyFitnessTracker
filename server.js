@@ -27,6 +27,20 @@ app.get("/stats", function (req, res) {
 });
 
 // Api Routes
+app.get("/api/workouts", function (req, res) {
+    Exercise.find({}).then(function (workout) {
+        res.json(workout)
+    })
+})
+
+app.put("/api/workouts/:id", function (req, res) {
+    Exercise.findByIdAndUpdate(req.params.id, {
+        exercises: req.body
+    }).then(function (workout) {
+        res.json(workout)
+    })
+})
+
 app.post("/api/workouts", function (req, res) {
     Exercise.create({})
         .then(function (workout) {
@@ -35,6 +49,12 @@ app.post("/api/workouts", function (req, res) {
         .catch(function (err) {
             res.json(err)
         })
+})
+
+app.get("/api/workouts/range", function (req, res) {
+    Exercise.find({}).limit(10).then(function (workout) {
+        return res.json(workout)
+    })
 })
 
 
